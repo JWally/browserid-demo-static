@@ -1,0 +1,18 @@
+{
+  "hosted-zone:account=263318538229:domainName=wolcott.io:region=us-east-1": {
+    "Id": "/hostedzone/Z26NIK6FG5FP6",
+    "Name": "wolcott.io."
+  },
+  "hosted-zone:account=263318538229:domainName=mathfood.com:region=us-east-1": {
+    "Id": "/hostedzone/Z1ET4NBB3WTJE3",
+    "Name": "mathfood.com."
+  },
+  "hosted-zone:account=263318538229:domainName=bakesale.us:region=us-east-1": {
+    "Id": "/hostedzone/Z071730828N4Y6X2PEEZ9",
+    "Name": "bakesale.us."
+  },
+  "hosted-zone:account=263318538229:domainName=discretevpn.net:region=us-east-1": {
+    "Id": "/hostedzone/Z061282328RYQEWSMPR2R",
+    "Name": "discretevpn.net."
+  }
+}
