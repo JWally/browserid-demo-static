@@ -14,5 +14,9 @@
   "hosted-zone:account=263318538229:domainName=discretevpn.net:region=us-east-1": {
     "Id": "/hostedzone/Z061282328RYQEWSMPR2R",
     "Name": "discretevpn.net."
+  },
+  "hosted-zone:account=263318538229:domainName=browserid.info:region=us-east-1": {
+    "Id": "/hostedzone/Z02922441RGWN2Y1JKEJO",
+    "Name": "browserid.info."
   }
 }

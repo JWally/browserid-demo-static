@@ -13,6 +13,7 @@
     "hack": "rollup -c && bash ./build-dev.sh"
   },
   "devDependencies": {
+    "@types/aws-sdk": "^0.0.42",
     "@types/jest": "^29.5.12",
     "@types/node": "20.14.2",
     "aws-cdk": "2.147.2",
@@ -25,13 +26,14 @@
     "@aws-cdk/aws-cloudfront": "^1.203.0",
     "@aws-cdk/aws-s3": "^1.203.0",
     "@aws-cdk/aws-s3-deployment": "^1.203.0",
-    "aws-cdk-lib": "2.147.2",
-    "constructs": "^10.0.0",
-    "source-map-support": "^0.5.21",
+    "@aws-sdk/client-s3": "^3.744.0",
     "@rollup/plugin-commonjs": "^24.1.0",
     "@rollup/plugin-json": "^6.0.0",
+    "aws-cdk-lib": "2.147.2",
+    "constructs": "^10.0.0",
     "javascript-obfuscator": "^4.1.0",
     "rollup-plugin-terser": "^7.0.2",
+    "source-map-support": "^0.5.21",
     "workbox-build": "^7.1.1"
   }
 }
