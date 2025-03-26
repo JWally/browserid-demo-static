@@ -1,8 +1,8 @@
-import { ModelConstruct } from '../model-processor';
-import { Construct } from 'constructs';
-import * as sns from 'aws-cdk-lib/aws-sns';
-import * as s3 from 'aws-cdk-lib/aws-s3'; // Add this import
-import { Duration } from 'aws-cdk-lib';
+import { ModelConstruct } from "../model-processor";
+import { Construct } from "constructs";
+import * as sns from "aws-cdk-lib/aws-sns";
+import * as s3 from "aws-cdk-lib/aws-s3"; // Add this import
+import { Duration } from "aws-cdk-lib";
 
 interface ModelConstructProps {
   stackName: string;
@@ -14,7 +14,7 @@ interface ModelConstructProps {
   projectName: string;
 }
 
-export class ModelCheckoutTmx extends ModelConstruct {
+export class ProcessorModel extends ModelConstruct {
   public readonly bucket: s3.Bucket; // Make it accessible to other constructs if needed
 
   constructor(scope: Construct, id: string, props: ModelConstructProps) {
@@ -53,6 +53,9 @@ export class ModelCheckoutTmx extends ModelConstruct {
     this.bucket.grantReadWrite(this.processorFunction);
 
     // Tell the processor function what bucket its going to hit...
-    this.processorFunction.addEnvironment('BUCKET_NAME', this.bucket.bucketName);
+    this.processorFunction.addEnvironment(
+      "BUCKET_NAME",
+      this.bucket.bucketName,
+    );
   }
 }

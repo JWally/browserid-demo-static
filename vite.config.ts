@@ -23,13 +23,13 @@ export default defineConfig({
       reporter: ["text", "json-summary"],
       reportOnFailure: true, // This ensures coverage is reported even on test failures
       reportsDirectory: "./coverage",
-      include: ["src/**/*.ts"],
+      include: ["src-lambda/**/*.ts"],
       exclude: [
-        "src/**/*.test.ts",
-        "src/**/*.spec.ts",
-        "src/**/*.d.ts",
-        "src/**/types/**",
-        "src/**/*.interface.ts",
+        "src-lambda/**/*.test.ts",
+        "src-lambda/**/*.spec.ts",
+        "src-lambda/**/*.d.ts",
+        "src-lambda/**/types/**",
+        "src-lambda/**/*.interface.ts",
       ],
       thresholds: {
         branches: 80,

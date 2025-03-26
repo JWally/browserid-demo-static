@@ -1,16 +1,16 @@
-import { Construct } from 'constructs';
-import * as lambda from 'aws-cdk-lib/aws-lambda-nodejs';
-import * as sns from 'aws-cdk-lib/aws-sns';
-import * as sqs from 'aws-cdk-lib/aws-sqs';
-import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
-import * as eventSources from 'aws-cdk-lib/aws-lambda-event-sources';
-import * as iam from 'aws-cdk-lib/aws-iam';
-import * as path from 'path';
-import { Runtime, Tracing } from 'aws-cdk-lib/aws-lambda';
-import { OutputFormat } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { Duration } from 'aws-cdk-lib';
-import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
-import { SECURITY_KEY_NAME } from '../helpers/constants';
+import { Construct } from "constructs";
+import * as lambda from "aws-cdk-lib/aws-lambda-nodejs";
+import * as sns from "aws-cdk-lib/aws-sns";
+import * as sqs from "aws-cdk-lib/aws-sqs";
+import * as subs from "aws-cdk-lib/aws-sns-subscriptions";
+import * as eventSources from "aws-cdk-lib/aws-lambda-event-sources";
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as path from "path";
+import { Runtime, Tracing } from "aws-cdk-lib/aws-lambda";
+import { OutputFormat } from "aws-cdk-lib/aws-lambda-nodejs";
+import { Duration } from "aws-cdk-lib";
+import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
+import { SECURITY_KEY_NAME } from "../helpers/constants";
 
 interface ModelConstructProps {
   stackName: string;
@@ -28,7 +28,7 @@ export class ModelConstruct extends Construct {
   constructor(scope: Construct, id: string, props: ModelConstructProps) {
     super(scope, id);
 
-    const { stackName, environment, inputTopic, modelName, handlerPath, stage, projectName } =
+    const { stackName, environment, inputTopic, modelName, handlerPath } =
       props;
 
     // Get secret from Secrets Manager
@@ -66,18 +66,18 @@ export class ModelConstruct extends Construct {
         bundling: {
           minify: true,
           sourceMap: true,
-          target: 'node20',
+          target: "node20",
           keepNames: true,
           format: OutputFormat.CJS,
-          mainFields: ['module', 'main'],
-          environment: { NODE_ENV: 'production' },
+          mainFields: ["module", "main"],
+          environment: { NODE_ENV: "production" },
         },
         environment: {
-          AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1",
           ENVIRONMENT: environment,
           POWERTOOLS_SERVICE_NAME: `${stackName}-${modelName}`,
           POWERTOOLS_METRICS_NAMESPACE: stackName,
-          LOG_LEVEL: 'INFO',
+          LOG_LEVEL: "INFO",
           SECRET_KEY_ARN: secret.secretArn,
         },
         tracing: Tracing.ACTIVE,
@@ -101,8 +101,12 @@ export class ModelConstruct extends Construct {
     this.processorFunction.addToRolePolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
-        actions: ['logs:CreateLogGroup', 'logs:CreateLogStream', 'logs:PutLogEvents'],
-        resources: ['*'],
+        actions: [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
+        ],
+        resources: ["*"],
       }),
     );
 
@@ -110,8 +114,12 @@ export class ModelConstruct extends Construct {
 
     const IAM_LOGGING_POLICY = new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
-      actions: ['logs:CreateLogGroup', 'logs:CreateLogStream', 'logs:PutLogEvents'],
-      resources: ['*'],
+      actions: [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+      ],
+      resources: ["*"],
     });
 
     // Add IAM Logging Policy to Lambdas as necessary
@@ -119,6 +127,5 @@ export class ModelConstruct extends Construct {
 
     // Add the policy to both functions
     secret.grantRead(this.processorFunction);
-
   }
 }

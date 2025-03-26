@@ -1,6 +1,6 @@
 // src/handlers/queue-processor.ts
 
-import { ERROR_STRINGS } from './constants';
+import { ERROR_STRINGS } from "./constants";
 
 /* ============================================================================
    TYPE DEFINITIONS
@@ -22,7 +22,7 @@ export interface DecryptedData {
 }
 
 interface CustomHeaders {
-  'Content-Type'?: string;
+  "Content-Type"?: string;
   Authorization?: string;
   // other known headers...
   [key: string]: unknown;
@@ -47,13 +47,13 @@ interface SQSParsedMessage {
  * @throws {Error} if parsing fails.
  */
 export const parseJSON = <T>(data: unknown): T => {
-  if (typeof data !== 'string') {
+  if (typeof data !== "string") {
     return data as T;
   }
   try {
     return JSON.parse(data) as T;
   } catch (error) {
-    console.error('JSON parsing error:', error);
+    console.error("JSON parsing error:", error);
     throw new Error(ERROR_STRINGS.CANNOT_PARSE_JSON);
   }
 };
@@ -78,8 +78,9 @@ export const SQSBodyParser = async (
   const parsedPayload = parseJSON<SQSParsedMessage>(payload);
 
   // Step 2: Parse the inner message body.
-  const { body, headers, ipAddress } = parseJSON<MessageBody>(parsedPayload.Message);
-
+  const { body, headers, ipAddress } = parseJSON<MessageBody>(
+    parsedPayload.Message,
+  );
 
   return { data: body, headers, ipAddress };
 };

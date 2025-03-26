@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import { SNSClient, PublishCommand } from '@aws-sdk/client-sns';
+import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
 import createHttpError from "http-errors";
 
 import { Logger } from "@aws-lambda-powertools/logger";
@@ -36,14 +36,13 @@ export const snsClient = new SNSClient({});
 export const lambdaHandler = async (
   event: APIGatewayProxyEvent,
 ): Promise<APIGatewayProxyResult> => {
-
   try {
     // ------------------------------------------------------------------------
     // 1) Pull the topic ARN from environment
     // ------------------------------------------------------------------------
     const topicArn = process.env.CHECKOUT_TOPIC_ARN;
     if (!topicArn) {
-      throw new Error('CHECKOUT_TOPIC_ARN is not set');
+      throw new Error("CHECKOUT_TOPIC_ARN is not set");
     }
 
     // ------------------------------------------------------------------------

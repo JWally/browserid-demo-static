@@ -1,9 +1,9 @@
 // src/handlers/queue-processor.ts
 
-import { getAwsSecrets } from '../../services/get-aws-secrets';
-import { SQSEvent } from 'aws-lambda';
-import { SQSBodyParser } from '../../helpers/sqs-body-parser';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { getTmxData } from "../../services/get-tmx-data";
+import { SQSEvent } from "aws-lambda";
+import { SQSBodyParser } from "../../helpers/sqs-body-parser";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 import { Logger } from "@aws-lambda-powertools/logger";
 import { Metrics } from "@aws-lambda-powertools/metrics";
@@ -23,34 +23,39 @@ export const metrics = new Metrics({
 const s3Client = new S3Client({}); // <-- You need an S3Client instance
 
 export const handler = async (event: SQSEvent) => {
-
-  const { TMX_API_KEY, OAK_API_KEY } = await getAwsSecrets();
-  logger.info("API-KEYS", { TMX_API_KEY, OAK_API_KEY });
-  metrics.addMetric("Success", "Count", 1);
-
   await Promise.all(
     event.Records.map(async (record) => {
       // Each record.body is your message text
       const messageBody = record.body;
-      // do whatever processing you need
-      const data = await SQSBodyParser(
-        messageBody
-      );
 
-      console.log(JSON.stringify(data, null, 2));
+      // parse and extract data from the payload
+      const data = await SQSBodyParser(messageBody);
+
+      if (!data || !data.data) {
+        throw new Error("no data returned from parser");
+      }
+
+      // @ts-expect-error fix later please
+      if (!data.data["session-id"]) {
+        throw new Error("no session id on data");
+      }
+
+      // @ts-expect-error fix this later please
+      const sessionId: string = data.data["session-id"];
+
+      const TMX_DATA = await getTmxData(sessionId);
 
       try {
         await s3Client.send(
           new PutObjectCommand({
             Bucket: process.env.BUCKET_NAME, // Must be set in environment variables
-            // @ts-expect-error TODO: Fix this
-            Key: `demo/tmx/${data?.data?.["session-id"]}.json`,
-            Body: JSON.stringify(data),
-            ContentType: 'application/json',
+            Key: `demo/tmx/${sessionId}.json`,
+            Body: JSON.stringify({...data, TMX_DATA}),
+            ContentType: "application/json",
           }),
         );
       } catch (error) {
-        console.error('Failed to write to S3:', error);
+        console.error("Failed to write to S3:", error);
         throw error; // or handle it based on your needs
       }
     }),

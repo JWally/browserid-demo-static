@@ -5,7 +5,7 @@ import { isWarmingUp, onWarmup } from "../../src-lambda/helpers/middy-helpers";
 import { getAwsSecrets } from "../../src-lambda/services/get-aws-secrets";
 
 // Mock the getAwsSecrets service
-vi.mock("../../src/services/get-aws-secrets", () => ({
+vi.mock("../../src-lambda/services/get-aws-secrets", () => ({
   getAwsSecrets: vi.fn(),
 }));
 

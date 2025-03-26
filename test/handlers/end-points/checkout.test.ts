@@ -1,4 +1,4 @@
-// test/handlers/end-points/web.test.ts
+// test/handlers/end-points/checkout.test.ts
 import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
 import { APIGatewayProxyEvent } from "aws-lambda";
 import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
@@ -29,11 +29,7 @@ const snsMock = mockClient(SNSClient);
 
 // Create a properly stringified event body
 const PASSING_PAYLOAD = {
-  ciphertext: MOCK_CIPHER_MATERIAL,
-  cipherTextSignature: MOCK_CIPHER_MATERIAL,
-  iv: MOCK_CIPHER_MATERIAL,
-  salt: MOCK_CIPHER_MATERIAL,
-  publicEncryptionKey: MOCK_CIPHER_MATERIAL,
+  "session-id": MOCK_CIPHER_MATERIAL,
 };
 
 // Create a stock passing event that will pass schema validation
@@ -54,7 +50,7 @@ const PASSING_EVENT: Partial<APIGatewayProxyEvent> = {
 describe.sequential("checkout handler", () => {
   beforeEach(() => {
     snsMock.reset(); // reset any previous configurations / calls
-    process.env.WEB_TOPIC_ARN = "test:topic:arn";
+    process.env.CHECKOUT_TOPIC_ARN = "test:topic:arn";
     vi.clearAllMocks();
     _clearDeduplicateCache();
   });
@@ -62,7 +58,7 @@ describe.sequential("checkout handler", () => {
   afterEach(() => {
     snsMock.reset();
     vi.resetAllMocks();
-    delete process.env.WEB_TOPIC_ARN; // Clean up env var
+    delete process.env.CHECKOUT_TOPIC_ARN; // Clean up env var
   });
 
   // ----------------------------------------------------------------------------
@@ -169,8 +165,8 @@ describe.sequential("checkout handler", () => {
   // ----------------------------------------------------------------------------
   //
   // ----------------------------------------------------------------------------
-  test("throws error when WEB_TOPIC_ARN is not set", async () => {
-    delete process.env.WEB_TOPIC_ARN;
+  test("throws error when CHECKOUT_TOPIC_ARN is not set", async () => {
+    delete process.env.CHECKOUT_TOPIC_ARN;
     snsMock.reset();
     snsMock.on(PublishCommand).resolves({});
     const event = JSON.parse(JSON.stringify(PASSING_EVENT));

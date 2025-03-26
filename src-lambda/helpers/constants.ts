@@ -51,6 +51,7 @@ export const WARMUP_EVENT = {
 
 export const AWS_SECRETS_REQUIRED_KEYS: string[] = [
   "TMX_API_KEY",
+  "TMX_ORG_ID",
   "OAK_API_KEY",
 ];
 

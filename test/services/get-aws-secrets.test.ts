@@ -11,14 +11,9 @@ import {
 // Here we stub the constants module so that our module under test (getAwsSecrets)
 // will use these stubbed values.
 // (Note: The SECRET_KEY_ARN is set to a valid ARN string here.)
-vi.mock("../../src/helpers/constants", () => {
+vi.mock("../../src-lambda/helpers/constants", () => {
   return {
-    AWS_SECRETS_REQUIRED_KEYS: [
-      "ENCRYPTION_PUBLIC_KEY",
-      "ENCRYPTION_PRIVATE_KEY",
-      "SIGNATURE_PUBLIC_KEY",
-      "SIGNATURE_PRIVATE_KEY",
-    ],
+    AWS_SECRETS_REQUIRED_KEYS: ["TMX_API_KEY", "OAK_API_KEY"],
     KEY_CACHE_DURATION: 1000 * 60 * 60, // 1 hour in ms
     SECRET_KEY_ARN: "valid-secret-arn",
     ERROR_STRINGS: {
@@ -38,11 +33,10 @@ import {
 const secretsManagerMock = mockClient(SecretsManagerClient);
 
 // Mock valid secret data
-const mockValidSecretData = {
-  ENCRYPTION_PUBLIC_KEY: "mock-encryption-public-key",
-  ENCRYPTION_PRIVATE_KEY: "mock-encryption-private-key",
-  SIGNATURE_PUBLIC_KEY: "mock-signature-public-key",
-  SIGNATURE_PRIVATE_KEY: "mock-signature-private-key",
+const mockValidData = {
+  OAK_API_KEY: "abc-1234",
+  TMX_API_KEY: "abc-1234",
+  TMX_ORG_ID: "abc-1234",
 };
 
 describe("getAwsSecrets (using default mocked constants)", () => {
@@ -64,21 +58,21 @@ describe("getAwsSecrets (using default mocked constants)", () => {
   it("should successfully fetch and cache secrets", async () => {
     // Arrange: mock successful response from Secrets Manager
     secretsManagerMock.on(GetSecretValueCommand).resolves({
-      SecretString: JSON.stringify(mockValidSecretData),
+      SecretString: JSON.stringify(mockValidData),
     });
 
     // Act: fetch the secrets
     const secrets = await getAwsSecrets();
 
     // Assert: secrets are correct and call was made only once
-    expect(secrets).toEqual(mockValidSecretData);
+    expect(secrets).toEqual(mockValidData);
     expect(secretsManagerMock.calls()).toHaveLength(1);
   });
 
   it("should use cached secrets when within cache duration", async () => {
     // Arrange: mock successful response
     secretsManagerMock.on(GetSecretValueCommand).resolves({
-      SecretString: JSON.stringify(mockValidSecretData),
+      SecretString: JSON.stringify(mockValidData),
     });
 
     // Act: first call caches the secrets
@@ -87,14 +81,14 @@ describe("getAwsSecrets (using default mocked constants)", () => {
     const secrets = await getAwsSecrets();
 
     // Assert: verify the secrets and that AWS was called only once
-    expect(secrets).toEqual(mockValidSecretData);
+    expect(secrets).toEqual(mockValidData);
     expect(secretsManagerMock.calls()).toHaveLength(1);
   });
 
   it("should fetch new secrets when cache expires", async () => {
     // Arrange: mock successful response
     secretsManagerMock.on(GetSecretValueCommand).resolves({
-      SecretString: JSON.stringify(mockValidSecretData),
+      SecretString: JSON.stringify(mockValidData),
     });
 
     // Act: first call caches the secrets
@@ -107,7 +101,7 @@ describe("getAwsSecrets (using default mocked constants)", () => {
     const secrets = await getAwsSecrets();
 
     // Assert: AWS should have been called twice
-    expect(secrets).toEqual(mockValidSecretData);
+    expect(secrets).toEqual(mockValidData);
     expect(secretsManagerMock.calls()).toHaveLength(2);
   });
 
@@ -178,14 +172,9 @@ describe("getAwsSecrets when SECRET_KEY_ARN is not set", () => {
 
   it("should throw error when SECRET_KEY_ARN is not set", async () => {
     // Dynamically mock the constants module with SECRET_KEY_ARN undefined
-    vi.doMock("../../src/helpers/constants", () => {
+    vi.doMock("../../src-lambda/helpers/constants", () => {
       return {
-        AWS_SECRETS_REQUIRED_KEYS: [
-          "ENCRYPTION_PUBLIC_KEY",
-          "ENCRYPTION_PRIVATE_KEY",
-          "SIGNATURE_PUBLIC_KEY",
-          "SIGNATURE_PRIVATE_KEY",
-        ],
+        AWS_SECRETS_REQUIRED_KEYS: ["TMX_API_KEY", "OAK_API_KEY", "TMX_ORG_ID"],
         KEY_CACHE_DURATION: 1000 * 60 * 60, // 1 hour in ms
         SECRET_KEY_ARN: undefined, // simulate missing ARN
         ERROR_STRINGS: {

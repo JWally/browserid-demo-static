@@ -53,15 +53,13 @@ export const getAwsSecrets = async (): Promise<Record<string, string>> => {
     }
 
     // Extract the required keys
-    const {
-      OAK_API_KEY,
-      TMX_API_KEY,
-    } = secret;
+    const { OAK_API_KEY, TMX_API_KEY, TMX_ORG_ID } = secret;
 
     // Cache the result
     cachedSecrets = {
       OAK_API_KEY,
       TMX_API_KEY,
+      TMX_ORG_ID,
     };
 
     cacheTimestamp = Date.now();

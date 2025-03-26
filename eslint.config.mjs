@@ -22,7 +22,8 @@ export default [
       globals: {
         __dirname: 'readonly',
         console: 'readonly',
-        process: 'writable'
+        process: 'writable',
+        fetch: 'readonly'
       }
     },
     plugins: {

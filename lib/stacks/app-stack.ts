@@ -5,8 +5,8 @@ import * as targets from "aws-cdk-lib/aws-events-targets";
 
 import { Construct } from "constructs";
 
-import * as sns from 'aws-cdk-lib/aws-sns';
-import * as iam from 'aws-cdk-lib/aws-iam';
+import * as sns from "aws-cdk-lib/aws-sns";
+import * as iam from "aws-cdk-lib/aws-iam";
 
 import { LambdaConstruct } from "../constructs/lambda";
 import { ApiGatewayConstruct } from "../constructs/api";
@@ -15,8 +15,7 @@ import { WafConstruct } from "../constructs/waf";
 import { WARMUP_EVENT } from "../../src-lambda/helpers/constants";
 import { StaticSiteConstruct } from "../constructs/static-site";
 
-import { SecretConstruct } from "../constructs/secrets";
-import { ModelCheckoutTmx } from "../constructs/models/checkout-tmx";
+import { ProcessorModel } from "../constructs/models/processor";
 
 interface AppStackProps extends cdk.StackProps {
   environment: string;
@@ -31,14 +30,6 @@ export class TheStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: AppStackProps) {
     super(scope, id, props);
     const { environment, stackName, rootDomain, stage, region } = props;
-
-    // Create | Update our Key
-    new SecretConstruct(this, "Secrets", {
-      environment,
-      stackName,
-      stage,
-      projectName: id,
-    });
 
     // Create Lambda functions
     const lambdaConstruct = new LambdaConstruct(this, "Lambda", {
@@ -97,11 +88,9 @@ export class TheStack extends cdk.Stack {
       }),
     );
 
-
-
     /// ///////////////////////////////////////////////////////////////////////
     ///
-    ///  CHECKOUT TOPIC LISTENERS
+    ///  CHECKOUT SNS TOPIC CREATION AND ASSIGNMENT
     ///
     /// ///////////////////////////////////////////////////////////////////////
 
@@ -111,16 +100,18 @@ export class TheStack extends cdk.Stack {
     });
 
     // 2) Tell web function HOW to publish to the SNS Topic
-    lambdaConstruct.checkoutFunction.addEnvironment('CHECKOUT_TOPIC_ARN', checkoutTopic.topicArn);
+    lambdaConstruct.checkoutFunction.addEnvironment(
+      "CHECKOUT_TOPIC_ARN",
+      checkoutTopic.topicArn,
+    );
 
     // 3) Give webFunction permission to publish to the Topic
     lambdaConstruct.checkoutFunction.addToRolePolicy(
       new iam.PolicyStatement({
-        actions: ['sns:Publish'],
+        actions: ["sns:Publish"],
         resources: [checkoutTopic.topicArn],
       }),
     );
-
 
     /// ///////////////////////////////////////////////////////////////////////
     ///
@@ -128,15 +119,14 @@ export class TheStack extends cdk.Stack {
     ///
     /// ///////////////////////////////////////////////////////////////////////
 
-    new ModelCheckoutTmx(this, 'checkout-tmx', {
+    new ProcessorModel(this, "checkout-tmx", {
       stackName,
       environment,
-      modelName: 'checkout-tmx',
+      modelName: "checkout-tmx",
       stage,
       projectName: id,
-      handlerPath: 'src-lambda/handlers/processors/checkout-tmx.ts',
+      handlerPath: "src-lambda/handlers/processors/checkout-tmx.ts",
       inputTopic: checkoutTopic,
     });
-
   }
 }
