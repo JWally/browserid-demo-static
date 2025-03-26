@@ -1,11 +1,17 @@
-lib/*.js
-bin/*.js
+*.js
 !jest.config.js
+!dist/*.js
 *.d.ts
 node_modules
-
-build
 
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+
+# SICK readouts
+*.sick
+lib/output.sick
+
+# TEST COVERAGE
+coverage
+./coverage

@@ -1,0 +1,16 @@
+{
+  "scan": ".",
+
+  "include": ["bin", "lib", "src", "test"],
+
+  "exclude": ["node_modules", ".git", "dist", "build"],
+
+  "excludeFiles": ["package-lock.json"],
+
+  "extensions": [".ts", ".json", ".md"],
+
+  "showExcluded": true,
+  "showSkipped": true,
+
+  "outputFile": "output.sick"
+}
