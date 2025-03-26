@@ -50,7 +50,7 @@ export const handler = async (event: SQSEvent) => {
           new PutObjectCommand({
             Bucket: process.env.BUCKET_NAME, // Must be set in environment variables
             Key: `demo/tmx/${sessionId}.json`,
-            Body: JSON.stringify({...data, TMX_DATA}),
+            Body: JSON.stringify({ ...data, TMX_DATA }),
             ContentType: "application/json",
           }),
         );
