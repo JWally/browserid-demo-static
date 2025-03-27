@@ -2,6 +2,7 @@
 import * as cdk from "aws-cdk-lib";
 import * as events from "aws-cdk-lib/aws-events";
 import * as targets from "aws-cdk-lib/aws-events-targets";
+import * as s3 from "aws-cdk-lib/aws-s3";
 
 import { Construct } from "constructs";
 
@@ -16,6 +17,7 @@ import { WARMUP_EVENT } from "../../src-lambda/helpers/constants";
 import { StaticSiteConstruct } from "../constructs/static-site";
 
 import { ProcessorModel } from "../constructs/models/processor";
+import { AthenaConstruct } from "../constructs/athena";
 
 interface AppStackProps extends cdk.StackProps {
   environment: string;
@@ -64,7 +66,7 @@ export class TheStack extends cdk.Stack {
 
     // Static Site Construct Correctly Configured
     new StaticSiteConstruct(this, "StaticSite", {
-      customDomain: `dev-jw.${rootDomain}`,
+      customDomain: `${stage}.${rootDomain}`,
       rootDomain: rootDomain,
     });
 
@@ -119,7 +121,7 @@ export class TheStack extends cdk.Stack {
     ///
     /// ///////////////////////////////////////////////////////////////////////
 
-    new ProcessorModel(this, "checkout-tmx", {
+    const processorTMX = new ProcessorModel(this, "checkout-tmx", {
       stackName,
       environment,
       modelName: "checkout-tmx",
@@ -127,6 +129,41 @@ export class TheStack extends cdk.Stack {
       projectName: id,
       handlerPath: "src-lambda/handlers/processors/checkout-tmx.ts",
       inputTopic: checkoutTopic,
+    });
+
+    // 2) AthenaConstruct
+    // Create a new bucket to store Athena query results.
+    const queryResultsBucket = new s3.Bucket(this, "AthenaResultsBucket", {
+      removalPolicy: cdk.RemovalPolicy.DESTROY, // Adjust as needed (e.g., RETAIN in prod)
+      autoDeleteObjects: true, // Useful for dev/test environments
+    });
+
+    // Instantiate our AthenaDBConstruct.
+    // This creates a Glue database, two Glue tables for our JSON data, and an Athena workgroup.
+    new AthenaConstruct(this, "AthenaDB", {
+      databaseName: "my_athena_db",
+      queryResultsBucket: queryResultsBucket,
+      queryResultsPrefix: "athena-results",
+      tables: [
+        {
+          tableName: "tmx_results",
+          bucket: processorTMX.bucket,
+          s3Prefix: "demo/tmx/", // Optional folder path within the bucket
+          columns: [
+            // Define a struct for the "data" column.
+            // (Note: this requires that your JSON has been adjusted to use "session_id")
+            { name: "data", type: "struct<session_id:string>" },
+            { name: "ipAddress", type: "string" },
+            // Store the nested TMX data as a raw JSON string.
+            { name: "TMX_DATA", type: "string" },
+            // (Optionally add other top-level keys if needed.)
+          ],
+          // partitionKeys: [
+          //   { name: "year", type: "string" },
+          //   { name: "month", type: "string" },
+          // ],
+        },
+      ],
     });
   }
 }
