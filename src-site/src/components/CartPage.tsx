@@ -1,40 +1,31 @@
 import React, { useState, useContext, FormEvent } from "react";
 import { CartContext } from "../context/CartContext";
 import Link from "./Link";
+import { getSessionId } from "../utils/helpers";
 
 //@ts-expect-error fix-later
 function CartPage(): JSX.Element {
-  const { cart, removeFromCart, updateQuantity, getCartTotal, emptyCart } = useContext(CartContext)!;
+  const { cart, removeFromCart, updateQuantity, getCartTotal, emptyCart } =
+    useContext(CartContext)!;
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const sessionId =
-    sessionStorage.getItem("session-id") ||
-    Math.random().toString().replace(/\./g, "") +
-      "-" +
-      Math.random().toString().replace(/\./g, "");
-
-  sessionStorage.setItem("session-id", sessionId);
+  const sessionId = getSessionId();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     setIsSubmitting(true);
 
-
-
     try {
       await fetch("https://api-dev-jw.browserid.info/v1/checkout", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ "session-id": sessionId })
+        body: JSON.stringify({ "session-id": sessionId }),
       });
 
-      alert(`YOU'RE JUST A NUMBER TO US: ${sessionId}`);
-
-      console.log({sessionId})
-
-      emptyCart()
-
+      // B) Redirect to the "order-summary" page
+      window.history.pushState({}, "", "/order-summary");
+      window.dispatchEvent(new PopStateEvent("popstate"));
     } catch (err) {
       console.error(err);
     } finally {
@@ -46,12 +37,12 @@ function CartPage(): JSX.Element {
     return (
       <div className="max-w-6xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8 text-pink-500">Your Cart</h1>
-        <p>It's sad and void... like your soul.</p>
+        <p>It's sad and void...</p>
         <p>
           <Link to="/" className="text-pink-400 hover:underline">
             Go back
           </Link>{" "}
-          and fill your cart until you feel happiness again...
+          and fill your cart until you can feel happiness again...
         </p>
       </div>
     );
@@ -115,7 +106,13 @@ function CartPage(): JSX.Element {
               disabled={isSubmitting}
               className="w-full bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              SUBMIT TO THE DARKNESS
+              PURCHASE
+            </button>
+            <button
+              onClick={() => emptyCart()}
+              className="w-full bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-5"
+            >
+              EMPTY CART
             </button>
           </form>
         </div>

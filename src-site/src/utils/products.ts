@@ -27,10 +27,18 @@ export const products = [
   },
   {
     id: 4,
-    name: "Bleak White Tee",
+    name: "A.W.E.S.O.M.E-0 Plush",
     price: 13.13,
-    image: "/cotton-crew-neck.webp",
-    category: "shirts",
-    description: "A cotton crew neck channeling /dev/null at your core...",
+    image: "/awesome-o.jpg",
+    category: "nostalgia",
+    description: "'Member Awesome-0? He's back - in plush form!",
+  },
+  {
+    id: 5,
+    name: "♥️ Towlie T-Shirt",
+    price: 13.13,
+    image: "/i-love-towlie.jpg",
+    category: "nostalgia",
+    description: "No Towlie-Ban here! Show your love with this retro-t.",
   },
 ];

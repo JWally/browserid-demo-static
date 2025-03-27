@@ -28,9 +28,9 @@ function HomePage(): JSX.Element {
               <div className="mt-auto">
                 <Link
                   to={`/product/${product.id}`}
-                  className="inline-block bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition-colors"
+                  className="inline-block bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition-colors font-mono"
                 >
-                  Embrace the Sadness
+                  Click Me I Guess...
                 </Link>
               </div>
             </div>

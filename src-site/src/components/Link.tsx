@@ -1,10 +1,18 @@
-import React from 'react';
+import React from "react";
 
-const Link = ({ to, children, className }: { to: string; children: React.ReactNode; className?: string }) => {
+const Link = ({
+  to,
+  children,
+  className,
+}: {
+  to: string;
+  children: React.ReactNode;
+  className?: string;
+}) => {
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    window.history.pushState({}, '', to);
-    window.dispatchEvent(new PopStateEvent('popstate'));
+    window.history.pushState({}, "", to);
+    window.dispatchEvent(new PopStateEvent("popstate"));
   };
 
   return (

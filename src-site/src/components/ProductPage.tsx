@@ -14,7 +14,11 @@ function ProductPage({ productId }: ProductPageProps): JSX.Element {
   const [showNotification, setShowNotification] = useState<boolean>(false);
 
   if (!product) {
-    return <div>Product not found. One more thing you've failed at - great job...</div>;
+    return (
+      <div>
+        Product not found. One more thing you've failed at - great job...
+      </div>
+    );
   }
 
   const handleAddToCart = () => {
@@ -22,15 +26,15 @@ function ProductPage({ productId }: ProductPageProps): JSX.Element {
       id: product.id,
       name: product.name,
       price: product.price,
-      quantity: 1
+      quantity: 1,
     });
-        
+
     setShowNotification(true);
   };
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-              {showNotification && (
+      {showNotification && (
         <Notification
           message="The item has been added to your cart."
           onClose={() => setShowNotification(false)}

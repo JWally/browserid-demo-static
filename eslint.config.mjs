@@ -5,7 +5,7 @@ import tsParser from '@typescript-eslint/parser';
 
 export default [
   {
-    files: ['**/*.ts'], // Lint all TypeScript files
+    files: ['**/*.ts','**/*.tsx'], // Lint all TypeScript files
     ignores: [
       'cdk.out/**', // Ignore the cdk.out directory
       'lib/cdk.out/**',
@@ -18,13 +18,22 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest', // Use the latest ECMAScript version
         sourceType: 'module', // Use ECMAScript modules
+        ecmaFeatures: {
+          jsx: true, // Enable parsing of JSX in TSX files
+        },
       },
       globals: {
         __dirname: 'readonly',
         console: 'readonly',
         process: 'writable',
         fetch: 'readonly',
-        window: 'readonly'
+        window: 'writable',
+        document: 'readonly',
+        JSX: 'readonly',
+        PopStateEvent: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        sessionStorage: 'readonly',
       }
     },
     plugins: {
