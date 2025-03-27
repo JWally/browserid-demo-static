@@ -68,10 +68,15 @@ export class AthenaConstruct extends Construct {
           storageDescriptor: {
             location: `s3://${tableDef.bucket.bucketName}/${tableDef.s3Prefix ?? ""}`,
             columns: tableDef.columns.map(
-              col => ({ name: col.name, type: col.type }) as glue.CfnTable.ColumnProperty
+              (col) =>
+                ({
+                  name: col.name,
+                  type: col.type,
+                }) as glue.CfnTable.ColumnProperty,
             ),
             inputFormat: "org.apache.hadoop.mapred.TextInputFormat",
-            outputFormat: "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat",
+            outputFormat:
+              "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat",
             serdeInfo: {
               serializationLibrary: "org.openx.data.jsonserde.JsonSerDe",
               parameters: {
@@ -81,7 +86,11 @@ export class AthenaConstruct extends Construct {
           },
           partitionKeys: tableDef.partitionKeys
             ? tableDef.partitionKeys.map(
-                pk => ({ name: pk.name, type: pk.type }) as glue.CfnTable.ColumnProperty
+                (pk) =>
+                  ({
+                    name: pk.name,
+                    type: pk.type,
+                  }) as glue.CfnTable.ColumnProperty,
               )
             : [],
         },
