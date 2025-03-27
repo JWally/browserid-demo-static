@@ -23,7 +23,8 @@ export default [
         __dirname: 'readonly',
         console: 'readonly',
         process: 'writable',
-        fetch: 'readonly'
+        fetch: 'readonly',
+        window: 'readonly'
       }
     },
     plugins: {

@@ -4,7 +4,7 @@ import HomePage from './components/HomePage';
 import CartPage from './components/CartPage';
 import ProductPage from './components/ProductPage';
 import { CartProvider } from './context/CartContext';
-import { loadProfiler } from './utils/profiler';
+import { profileTMX } from './utils/profiler';
 
 const App = () => {
   const [path, setPath] = useState(window.location.pathname);
@@ -18,7 +18,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    loadProfiler(sessionId);
+    profileTMX(sessionId, 22);
   }, [path, sessionId]);
 
   let Component = HomePage;
