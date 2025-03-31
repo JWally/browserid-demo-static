@@ -5,7 +5,7 @@ import CartPage from "./components/CartPage";
 import ProductPage from "./components/ProductPage";
 import OrderSummaryPage from "./components/OrderSummaryPage";
 import { CartProvider } from "./context/CartContext";
-import { profileTMX } from "./utils/profiler";
+import { profileTMX, profileOAK } from "./utils/profiler";
 import { getSessionId } from "./utils/helpers";
 import AdBlockModal from "./components/AdBlockModal";
 
@@ -21,8 +21,6 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    profileTMX(sessionId, 22);
-
     // Listen for the custom event
     const handleTmxScriptError = () => {
       setAdBlockDetected(true);
@@ -33,6 +31,15 @@ const App = () => {
       document.removeEventListener("tmx-script-error", handleTmxScriptError);
     };
   }, [path, sessionId]);
+
+  // When to profile...
+  if (path.startsWith("/cart")) {
+    profileTMX(sessionId, 22);
+    profileOAK(sessionId, "false", "true");
+  } else {
+    profileTMX(sessionId, 22);
+    profileOAK(sessionId, "true", "false");
+  }
 
   let Component = HomePage;
   if (path.startsWith("/product/")) {
