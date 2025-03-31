@@ -3,6 +3,9 @@ export const SIG_SCRIPT_DOMAIN: string = "imgs.signifyd.com";
 export const SIG_TOOLKIT_URL: string =
   "https://cdn-scripts.signifyd.com/api/company_toolkit.js";
 
+export const OAK_SCRIPT_URL: string =
+  "https://lfsjbhurq8h4.s3.us-east-1.amazonaws.com/loader.js";
+
 export const S3_ROOT_URL: string = "https://ms-oak-demo";
 
 export const [DEMO_STAGE] = document.location.host.split(".");

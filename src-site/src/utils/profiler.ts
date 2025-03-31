@@ -1,5 +1,11 @@
-// You may already have these constants defined in a separate file:
-import { SIG_TOOLKIT_URL, TMX_ORG_ID, SIG_SCRIPT_DOMAIN } from "./constants";
+import { URL, URLSearchParams } from "url";
+
+import {
+  SIG_TOOLKIT_URL,
+  TMX_ORG_ID,
+  SIG_SCRIPT_DOMAIN,
+  OAK_SCRIPT_URL,
+} from "./constants";
 
 /**
  * We declare a global interface for `window.threatmetrix` so TypeScript
@@ -98,4 +104,34 @@ export const profileTMX = (sessionId: string, pageId: number): void => {
   // We call handleTmxProfiling, which will either run ThreatMetrix immediately
   // if it's already loaded, or load it if it isn't.
   handleTmxProfiling(sessionId, pageId);
+};
+
+export const profileOAK = (
+  sessionId: string,
+  ping: string,
+  profile: string,
+): void => {
+  const pageURL = window.top?.location?.href || "";
+
+  const url = new URL(OAK_SCRIPT_URL);
+
+  // Define your query parameters as an object
+  const params = new URLSearchParams({
+    sessionId,
+    ping,
+    profile,
+    pageURL,
+    version: `lite`,
+  });
+
+  url.search = params.toString();
+
+  const script = document.createElement("script");
+
+  script.type = "text/javascript";
+
+  script.src = url.toString();
+
+  // Append the newly created script to the <head>, triggering the network request.
+  document.head.appendChild(script);
 };
