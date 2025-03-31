@@ -1,5 +1,3 @@
-import { URL, URLSearchParams } from "url";
-
 import {
   SIG_TOOLKIT_URL,
   TMX_ORG_ID,
@@ -113,9 +111,12 @@ export const profileOAK = (
 ): void => {
   const pageURL = window.top?.location?.href || "";
 
+  // eslint-disable-next-line no-undef
   const url = new URL(OAK_SCRIPT_URL);
 
   // Define your query parameters as an object
+
+  // eslint-disable-next-line no-undef
   const params = new URLSearchParams({
     sessionId,
     ping,
