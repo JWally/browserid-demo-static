@@ -1,0 +1,19 @@
+{
+  "hosted-zone:account=263318538229:domainName=browserid.info:region=us-east-1": {
+    "Id": "/hostedzone/Z02922441RGWN2Y1JKEJO",
+    "Name": "browserid.info."
+  },
+  "acknowledged-issue-numbers": [32775, 32775],
+  "hosted-zone:account=263318538229:domainName=bakesale.us:region=us-east-1": {
+    "Id": "/hostedzone/Z071730828N4Y6X2PEEZ9",
+    "Name": "bakesale.us."
+  },
+  "hosted-zone:account=263318538229:domainName=bot-topic.click:region=us-east-1": {
+    "Id": "/hostedzone/Z0718848O0I56T6B27V8",
+    "Name": "bot-topic.click."
+  },
+  "hosted-zone:account=263318538229:domainName=bot-topic.link:region=us-east-1": {
+    "Id": "/hostedzone/Z0719415330CBHBD7RYGN",
+    "Name": "bot-topic.link."
+  }
+}

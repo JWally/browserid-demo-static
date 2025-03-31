@@ -1,0 +1,20 @@
+*.js
+!jest.config.js
+!dist/*.js
+*.d.ts
+node_modules
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+# SICK readouts
+*.sick
+lib/output.sick
+
+# TEST COVERAGE
+coverage
+./coverage
+
+# STATIC SITE BUILDS
+dist/assets
