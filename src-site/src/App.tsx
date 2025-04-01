@@ -8,6 +8,7 @@ import { CartProvider } from "./context/CartContext";
 import { profileTMX, profileOAK } from "./utils/profiler";
 import { getSessionId } from "./utils/helpers";
 import AdBlockModal from "./components/AdBlockModal";
+import InceptionPage from "./components/InceptionPage";
 
 const App = () => {
   const [path, setPath] = useState(window.location.pathname);
@@ -36,6 +37,8 @@ const App = () => {
   if (path.startsWith("/cart")) {
     profileTMX(sessionId, 22);
     profileOAK(sessionId, "false", "true");
+  } else if (path.startsWith("/inception")) {
+    // nothing runs on deep cart
   } else {
     profileTMX(sessionId, 22);
     profileOAK(sessionId, "true", "false");
@@ -50,6 +53,9 @@ const App = () => {
     Component = CartPage;
   } else if (path === "/order-summary") {
     Component = OrderSummaryPage;
+  } else if (path === "/inception") {
+    // New route condition
+    Component = InceptionPage;
   }
 
   return (

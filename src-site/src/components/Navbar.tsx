@@ -19,6 +19,9 @@ const Navbar = () => {
           >
             Outerwear
           </Link>
+          <Link to="/inception" className="text-gray-300 hover:text-pink-400">
+            Inception
+          </Link>
           <Link to="/cart" className="text-gray-300 hover:text-pink-400">
             Cart({itemCount})
           </Link>
