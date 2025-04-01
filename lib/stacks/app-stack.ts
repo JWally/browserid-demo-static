@@ -19,6 +19,7 @@ import { StaticSiteConstruct } from "../constructs/static-site";
 import { ProcessorModel } from "../constructs/models/processor";
 import { AthenaConstruct } from "../constructs/athena";
 import { TMX_TABLE_COLUMNS, OAK_TABLE_COLUMNS } from "../helpers/constants";
+import { S3DataBucket } from "../constructs/s3-data-bucket";
 
 interface AppStackProps extends cdk.StackProps {
   environment: string;
@@ -129,9 +130,12 @@ export class TheStack extends cdk.Stack {
     ///  processors listen for data hitting the API, then do something with
     ///  it
     /// ///////////////////////////////////////////////////////////////////////
+    const dataBucket = new S3DataBucket(this, "s3-data-bucket", {
+      stackName,
+    });
 
     // 1) Create the TMX version of the processor
-    const processorTMX = new ProcessorModel(this, "checkout-tmx", {
+    new ProcessorModel(this, "checkout-tmx", {
       stackName,
       environment,
       modelName: "checkout-tmx",
@@ -139,9 +143,10 @@ export class TheStack extends cdk.Stack {
       projectName: id,
       handlerPath: "src-lambda/handlers/processors/checkout-tmx.ts",
       inputTopic: checkoutTopic,
+      bucket: dataBucket.bucket,
     });
 
-    const processorOAK = new ProcessorModel(this, "checkout-oak", {
+    new ProcessorModel(this, "checkout-oak", {
       stackName,
       environment,
       modelName: "checkout-oak",
@@ -149,7 +154,7 @@ export class TheStack extends cdk.Stack {
       projectName: id,
       handlerPath: "src-lambda/handlers/processors/checkout-oak.ts",
       inputTopic: checkoutTopic,
-      bucket: processorTMX.bucket,
+      bucket: dataBucket.bucket,
     });
 
     // 2) AthenaConstruct
@@ -169,13 +174,13 @@ export class TheStack extends cdk.Stack {
       tables: [
         {
           tableName: "tmx_results",
-          bucket: processorTMX.bucket,
+          bucket: dataBucket.bucket,
           s3Prefix: "demo/tmx/", // Optional folder path within the bucket
           columns: TMX_TABLE_COLUMNS,
         },
         {
           tableName: "oak_results",
-          bucket: processorOAK.bucket,
+          bucket: dataBucket.bucket,
           s3Prefix: "demo/oak/", // Optional folder path within the bucket
           columns: OAK_TABLE_COLUMNS,
         },

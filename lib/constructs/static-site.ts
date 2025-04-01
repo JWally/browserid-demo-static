@@ -162,6 +162,7 @@ export class StaticSiteConstruct extends Construct {
       destinationBucket: this.bucket,
       distribution: this.distribution,
       distributionPaths: ["/*"], // Invalidate everything (simplest approach)
+      memoryLimit: 2096,
       cacheControl: [
         // Example: short caching for index.html, if you like:
         CacheControl.fromString("public, max-age=0, must-revalidate"),

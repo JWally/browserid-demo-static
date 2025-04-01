@@ -12,7 +12,7 @@ export const [DEMO_STAGE] = document.location.host.split(".");
 
 export const STACK_STAGES: string[] = ["dev", "qa", "uat", "prod"];
 
-export const DEMO_API_URL: string = `https://api-${DEMO_STAGE}.browserid.info/v1/checkout`;
+export const DEMO_API_URL: string = `https://api-${DEMO_STAGE}.iron-bank.net/v1/checkout`;
 
 // TODO: This is code stink - clean it up at the stack, not the site.
 export const STACK_BUCKET_ARTIFACT: string = STACK_STAGES.includes(DEMO_STAGE)

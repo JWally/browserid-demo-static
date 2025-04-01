@@ -34,13 +34,13 @@ new PipelineStack(app, PIPELINE_NAME, {
 // /////////////////////////////////
 new AppStack(app, "ms-oak-demo-dev-jw", {
   // the custom props that your TheStack constructor requires
-  env: { account: "263318538229", region: "us-east-1" },
+  env: { account: "713324594279", region: "us-east-1" },
   environment: "dev-jw",
   stackName: "ms-oak-demo-dev-jw",
   rootDomain: ROOT_DOMAIN,
   stage: "dev-jw",
   region: "us-east-1",
-  account: "263318538229",
+  account: "713324594279",
   siteDomains: SITE_DOMAINS,
 });
 
