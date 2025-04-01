@@ -68,3 +68,218 @@
       0 0 150px #f09;
   }
 }
+
+/* 
+
+.clown-container {
+	position: relative;
+	width: 100%;
+	height: 100vh;
+	overflow: hidden;
+	background-image: url(/sad-clown.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	filter: sepia(0.5);
+	box-shadow: 0 0 150px black inset;
+}
+
+.clown-overlay {
+	width: 100%;
+	height: 100%;
+	filter: blur(0.5px) drop-shadow(0 0 0 #c9c7c7);
+}
+
+.clown-overlay:before {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: repeating-linear-gradient(90deg, #0002 0 2px, transparent 4px 35vmin);
+	animation: vlines 0.45s steps(1) infinite;
+}
+
+@keyframes  vlines {
+	0%, 100% {
+		transform: translateX(0);
+		opacity: 0.5;
+	}
+	10% {
+		transform: translateX(-1%);
+	}
+	20% {
+		transform: translateX(1%);
+	}
+	30% {
+		transform: translateX(-2%);
+		opacity: 0.75;
+	}
+	40% {
+		transform: translateX(3%);
+	}
+	50% {
+		transform: translateX(-3%);
+		opacity: 0.5;
+	}
+	60% {
+		transform: translateX(8%);
+	}
+	70% {
+		transform: translateX(-3%);
+	}
+	80% {
+		transform: translateX(10%);
+		opacity: 0.25;
+	}
+	90% {
+		transform: translateX(-2%);
+	}
+}
+
+.clown-overlay:after {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	opacity: 0.2;
+	background-image: repeating-conic-gradient(black 0%, transparent 0.00003%, transparent 0.0005%, transparent 0.00095%), repeating-conic-gradient(black 0%, transparent 0.00005%, transparent 0.00015%, transparent 0.0009%);
+	animation: grains 0.5s steps(1) infinite;
+}
+
+@keyframes  grains {
+	0%, 100% {
+		transform: translate(0,0);
+	}
+	10% {
+		transform: translate(-1%, -1%);
+	}
+	20% {
+		transform: translate(1%, 1%);
+	}
+	30% {
+		transform: translate(-2%, -2%);
+	}
+	40% {
+		transform: translate(3%, 3%);
+	}
+	50% {
+		transform: translate(-3%, -3%);
+	}
+	60% {
+		transform: translate(4%, 4%);
+	}
+	70% {
+		transform: translate(-4%, -4%);
+	}
+	80% {
+		transform: translate(2%, 2%);
+	}
+	90% {
+		transform: translate(-3%, -3%);
+	}
+} */
+
+
+.clown-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-image: url(/sad-clown.png);
+  background-size: cover; /* Default for small screens */
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: sepia(0.5);
+  box-shadow: 0 0 150px black inset;
+}
+
+@media (min-width: 1024px) {
+  .clown-container {
+    /* Adjust background-size on larger screens to reduce the image scale */
+    background-size: 50%;
+    background-position: center;
+  }
+}
+
+
+@keyframes flicker {
+	0%, 100% { opacity: 1; }
+	10% { opacity: 0.9; }
+	20% { opacity: 1; }
+	30% { opacity: 0.8; }
+	40% { opacity: 1; }
+	50% { opacity: 0.85; }
+	60% { opacity: 1; }
+	70% { opacity: 0.9; }
+	80% { opacity: 1; }
+	90% { opacity: 0.8; }
+}
+
+@keyframes shake {
+	0% { transform: translate(0, 0); }
+	25% { transform: translate(-0.2px, 0.2px); }
+	50% { transform: translate(0.2px, -0.2px); }
+	75% { transform: translate(-0.2px, 0.2px); }
+	100% { transform: translate(0, 0); }
+}
+
+.clown-overlay {
+	width: 100%;
+	height: 100%;
+	filter: blur(0.5px) drop-shadow(0 0 0 #c9c7c7);
+}
+
+.clown-overlay:before {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: repeating-linear-gradient(90deg, #0002 0 2px, transparent 4px 35vmin);
+	animation: vlines 0.45s steps(1) infinite;
+}
+
+@keyframes vlines {
+	0%, 100% { transform: translateX(0); opacity: 0.5; }
+	10% { transform: translateX(-2%); }
+	20% { transform: translateX(2%); }
+	30% { transform: translateX(-4%); opacity: 0.75; }
+	40% { transform: translateX(4%); }
+	50% { transform: translateX(-4%); opacity: 0.5; }
+	60% { transform: translateX(6%); }
+	70% { transform: translateX(-4%); }
+	80% { transform: translateX(8%); opacity: 0.25; }
+	90% { transform: translateX(-2%); }
+}
+
+.clown-overlay:after {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	/* Increase opacity for more visible grain */
+	opacity: 0.4;
+	background-image: repeating-conic-gradient(black 0%, transparent 0.00003%, transparent 0.0005%, transparent 0.00095%),
+	                  repeating-conic-gradient(black 0%, transparent 0.00005%, transparent 0.00015%, transparent 0.0009%);
+	animation: grains 0.5s steps(1) infinite;
+}
+
+@keyframes grains {
+	0%, 100% { transform: translate(0,0); }
+	10% { transform: translate(-1%, -1%); }
+	20% { transform: translate(1%, 1%); }
+	30% { transform: translate(-2%, -2%); }
+	40% { transform: translate(3%, 3%); }
+	50% { transform: translate(-3%, -3%); }
+	60% { transform: translate(4%, 4%); }
+	70% { transform: translate(-4%, -4%); }
+	80% { transform: translate(2%, 2%); }
+	90% { transform: translate(-3%, -3%); }
+}

@@ -1,6 +1,5 @@
 import React, { useState, useContext, FormEvent } from "react";
 import { CartContext } from "../context/CartContext";
-import Link from "./Link";
 import { getSessionId } from "../utils/helpers";
 import { DEMO_API_URL } from "../utils/constants";
 
@@ -40,15 +39,15 @@ function CartPage(): JSX.Element {
 
   if (cart.length === 0) {
     return (
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8 text-pink-500">Your Cart</h1>
-        <p>It's sad and void...</p>
-        <p>
-          <Link to="/" className="text-pink-400 hover:underline">
-            Go back
-          </Link>{" "}
-          and fill your cart until you can feel happiness again...
-        </p>
+      <div className="max-w-6xl mx-auto px-4 py-1 mt-2 text-center">
+        <h1 className="text-3xl font-bold mb-2 text-pink-500">
+          Your Cart Is Empty Inside
+        </h1>
+        <div className="mt-2">
+          <div className="clown-container">
+            <div className="clown-overlay"></div>
+          </div>
+        </div>
       </div>
     );
   }
