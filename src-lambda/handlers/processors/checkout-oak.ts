@@ -11,6 +11,18 @@ import { Metrics } from "@aws-lambda-powertools/metrics";
 import { POWERTOOLS_SERVICE_NAME } from "../../helpers/constants";
 import { flattenObject, getCurrentDateInfo } from "../../helpers/misc";
 
+import { getGrpcData } from "../../services/get-grpc-data";
+
+export interface ParsedBody {
+  data: {
+    "session-id": string;
+    // Whatever else your payload might hold
+    [key: string]: unknown;
+  };
+  // If your root-level object has other properties, define them here
+  [key: string]: unknown;
+}
+
 // Powertools
 const TOOL_NAME = `${POWERTOOLS_SERVICE_NAME}-checkout-processor`;
 
@@ -30,25 +42,35 @@ export const handler = async (event: SQSEvent) => {
       const messageBody = record.body;
 
       // parse and extract data from the payload
-      const data = await SQSBodyParser(messageBody);
+      const data = (await SQSBodyParser(messageBody)) as ParsedBody;
 
       if (!data || !data.data) {
         throw new Error("no data returned from parser");
       }
 
-      // @ts-expect-error fix later please
       if (!data.data["session-id"]) {
         throw new Error("no session id on data");
       }
 
-      // @ts-expect-error fix this later please
       const sessionId: string = data.data["session-id"];
 
       const DATE_INFO: NestedValue = getCurrentDateInfo() as NestedValue;
 
+      let OAK_DATA = {};
+      try {
+        OAK_DATA = await getGrpcData(sessionId);
+      } catch (e) {
+        logger.error("Error Calling GetGrpcData", { error: e });
+        OAK_DATA = {};
+      }
+
       const FLAT_DATA = flattenObject({ ...data, DATE_INFO });
 
-      const ALL_DATA = { ...FLAT_DATA, RAW_DATA: JSON.stringify(FLAT_DATA) };
+      const ALL_DATA = {
+        ...FLAT_DATA,
+        OAK_DATA,
+        RAW_DATA: JSON.stringify({ ...FLAT_DATA, OAK_DATA }),
+      };
 
       try {
         await s3Client.send(

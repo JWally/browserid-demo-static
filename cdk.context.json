@@ -6,5 +6,55 @@
   "hosted-zone:account=713324594279:domainName=keyri.com:region=us-east-1": {
     "Id": "/hostedzone/Z09768953FOLTEVL6TZ",
     "Name": "keyri.com."
+  },
+  "vpc-provider:account=713324594279:filter.vpc-id=vpc-2677595e:region=us-east-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-2677595e",
+    "vpcCidrBlock": "172.31.0.0/16",
+    "ownerAccountId": "713324594279",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-7152d85e",
+            "cidr": "172.31.80.0/20",
+            "availabilityZone": "us-east-1a",
+            "routeTableId": "rtb-b067c2cd"
+          },
+          {
+            "subnetId": "subnet-5c98c817",
+            "cidr": "172.31.16.0/20",
+            "availabilityZone": "us-east-1b",
+            "routeTableId": "rtb-b067c2cd"
+          },
+          {
+            "subnetId": "subnet-c386089e",
+            "cidr": "172.31.32.0/20",
+            "availabilityZone": "us-east-1c",
+            "routeTableId": "rtb-b067c2cd"
+          },
+          {
+            "subnetId": "subnet-263d7642",
+            "cidr": "172.31.0.0/20",
+            "availabilityZone": "us-east-1d",
+            "routeTableId": "rtb-b067c2cd"
+          },
+          {
+            "subnetId": "subnet-273a5b18",
+            "cidr": "172.31.48.0/20",
+            "availabilityZone": "us-east-1e",
+            "routeTableId": "rtb-b067c2cd"
+          },
+          {
+            "subnetId": "subnet-9a6c8395",
+            "cidr": "172.31.64.0/20",
+            "availabilityZone": "us-east-1f",
+            "routeTableId": "rtb-b067c2cd"
+          }
+        ]
+      }
+    ]
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useContext, FormEvent } from "react";
+import React, { useState, useContext } from "react";
 import { CartContext } from "../context/CartContext";
 import { getSessionId } from "../utils/helpers";
 import { DEMO_API_URL } from "../utils/constants";
@@ -7,13 +7,12 @@ import { DEMO_API_URL } from "../utils/constants";
 function CartPage(): JSX.Element {
   const { cart, removeFromCart, updateQuantity, getCartTotal, emptyCart } =
     useContext(CartContext)!;
+
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const sessionId = getSessionId();
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     setIsSubmitting(true);
 
     try {
@@ -25,8 +24,11 @@ function CartPage(): JSX.Element {
 
       // B) Redirect to the "order-summary" page
       window.history.pushState({}, "", "/order-summary");
+
       window.dispatchEvent(new PopStateEvent("popstate"));
+
       emptyCart();
+
       setTimeout(() => {
         sessionStorage.removeItem("session-id");
       }, 3_000);
@@ -104,9 +106,9 @@ function CartPage(): JSX.Element {
             </div>
           </div>
 
-          <form style={{ marginTop: "20px" }} onSubmit={handleSubmit}>
+          <form style={{ marginTop: "20px" }}>
             <button
-              type="submit"
+              onClick={() => handleSubmit()}
               disabled={isSubmitting}
               className="w-full bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >

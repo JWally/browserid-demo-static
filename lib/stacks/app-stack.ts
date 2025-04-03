@@ -146,7 +146,7 @@ export class TheStack extends cdk.Stack {
       bucket: dataBucket.bucket,
     });
 
-    new ProcessorModel(this, "checkout-oak", {
+    const oakModel = new ProcessorModel(this, "checkout-oak", {
       stackName,
       environment,
       modelName: "checkout-oak",
@@ -186,5 +186,11 @@ export class TheStack extends cdk.Stack {
         },
       ],
     });
+
+    // Miscellaneous permissions / legalese:
+    //
+    oakModel.processorFunction.role?.addManagedPolicy(
+      iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonEC2ReadOnlyAccess"),
+    );
   }
 }

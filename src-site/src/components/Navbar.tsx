@@ -13,12 +13,6 @@ const Navbar = () => {
           BotTopic
         </Link>
         <div className="space-x-4">
-          <Link
-            to="/category/outerwear"
-            className="text-gray-300 hover:text-pink-400"
-          >
-            Outerwear
-          </Link>
           <Link to="/inception" className="text-gray-300 hover:text-pink-400">
             Inception
           </Link>

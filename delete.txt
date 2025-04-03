@@ -1,0 +1,174 @@
+{
+    "NetworkInterfaces": [
+        {
+            "AvailabilityZone": "us-east-1a",
+            "Description": "AWS Lambda VPC ENI-ms-oak-demo-dev-jw-checkout-oak-processor-c841c5d0-b948-4c2b-968d-05fd4c8f75d9",
+            "Groups": [
+                {
+                    "GroupId": "sg-0c2a92b514341eed2",
+                    "GroupName": "ms-oak-demo-dev-jw-checkoutoakmsoakdemodevjwcheckoutoakprocessorSecurityGroupEECF4A0F-sACVv4KQlp5q"
+                }
+            ],
+            "InterfaceType": "interface",
+            "Ipv6Addresses": [],
+            "MacAddress": "12:ae:01:a0:c2:81",
+            "NetworkInterfaceId": "eni-0c6c6075fe80ba747",
+            "OwnerId": "713324594279",
+            "PrivateDnsName": "ip-172-31-95-194.ec2.internal",
+            "PrivateIpAddress": "172.31.95.194",
+            "PrivateIpAddresses": [
+                {
+                    "Primary": true,
+                    "PrivateDnsName": "ip-172-31-95-194.ec2.internal",
+                    "PrivateIpAddress": "172.31.95.194"
+                }
+            ],
+            "RequesterId": "AROA2MFLVQRTZ3AXRT6AH:749678902839",
+            "RequesterManaged": false,
+            "SourceDestCheck": true,
+            "Status": "available",
+            "SubnetId": "subnet-7152d85e",
+            "TagSet": [],
+            "VpcId": "vpc-2677595e",
+            "Operator": {
+                "Managed": false
+            }
+        },
+        {
+            "AvailabilityZone": "us-east-1f",
+            "Description": "AWS Lambda VPC ENI-ms-oak-demo-dev-jw-checkout-oak-processor-d35ab60a-c379-44ae-be47-3273541b39bc",
+            "Groups": [
+                {
+                    "GroupId": "sg-0c2a92b514341eed2",
+                    "GroupName": "ms-oak-demo-dev-jw-checkoutoakmsoakdemodevjwcheckoutoakprocessorSecurityGroupEECF4A0F-sACVv4KQlp5q"
+                }
+            ],
+            "InterfaceType": "interface",
+            "Ipv6Addresses": [],
+            "MacAddress": "16:ff:ce:38:a2:d7",
+            "NetworkInterfaceId": "eni-0f39fb31513f43240",
+            "OwnerId": "713324594279",
+            "PrivateDnsName": "ip-172-31-64-77.ec2.internal",
+            "PrivateIpAddress": "172.31.64.77",
+            "PrivateIpAddresses": [
+                {
+                    "Primary": true,
+                    "PrivateDnsName": "ip-172-31-64-77.ec2.internal",
+                    "PrivateIpAddress": "172.31.64.77"
+                }
+            ],
+            "RequesterId": "AROA2MFLVQRTZ3AXRT6AH:749678902839",
+            "RequesterManaged": false,
+            "SourceDestCheck": true,
+            "Status": "available",
+            "SubnetId": "subnet-9a6c8395",
+            "TagSet": [],
+            "VpcId": "vpc-2677595e",
+            "Operator": {
+                "Managed": false
+            }
+        },
+        {
+            "AvailabilityZone": "us-east-1c",
+            "Description": "AWS Lambda VPC ENI-ms-oak-demo-dev-jw-checkout-oak-processor-5aa60770-c798-4dbd-8695-246b49c8c6d2",
+            "Groups": [
+                {
+                    "GroupId": "sg-0c2a92b514341eed2",
+                    "GroupName": "ms-oak-demo-dev-jw-checkoutoakmsoakdemodevjwcheckoutoakprocessorSecurityGroupEECF4A0F-sACVv4KQlp5q"
+                }
+            ],
+            "InterfaceType": "interface",
+            "Ipv6Addresses": [],
+            "MacAddress": "0e:00:e4:60:c3:11",
+            "NetworkInterfaceId": "eni-01391ffdede4dc8cf",
+            "OwnerId": "713324594279",
+            "PrivateDnsName": "ip-172-31-39-31.ec2.internal",
+            "PrivateIpAddress": "172.31.39.31",
+            "PrivateIpAddresses": [
+                {
+                    "Primary": true,
+                    "PrivateDnsName": "ip-172-31-39-31.ec2.internal",
+                    "PrivateIpAddress": "172.31.39.31"
+                }
+            ],
+            "RequesterId": "AROA2MFLVQRTZ3AXRT6AH:749678902839",
+            "RequesterManaged": false,
+            "SourceDestCheck": true,
+            "Status": "available",
+            "SubnetId": "subnet-c386089e",
+            "TagSet": [],
+            "VpcId": "vpc-2677595e",
+            "Operator": {
+                "Managed": false
+            }
+        },
+        {
+            "AvailabilityZone": "us-east-1b",
+            "Description": "AWS Lambda VPC ENI-ms-oak-demo-dev-jw-checkout-oak-processor-74229d3e-c56f-48ce-a40c-3cdf3164423d",
+            "Groups": [
+                {
+                    "GroupId": "sg-0c2a92b514341eed2",
+                    "GroupName": "ms-oak-demo-dev-jw-checkoutoakmsoakdemodevjwcheckoutoakprocessorSecurityGroupEECF4A0F-sACVv4KQlp5q"
+                }
+            ],
+            "InterfaceType": "interface",
+            "Ipv6Addresses": [],
+            "MacAddress": "0a:ff:e4:85:9b:53",
+            "NetworkInterfaceId": "eni-0ab2ad3223cec3c2f",
+            "OwnerId": "713324594279",
+            "PrivateDnsName": "ip-172-31-25-2.ec2.internal",
+            "PrivateIpAddress": "172.31.25.2",
+            "PrivateIpAddresses": [
+                {
+                    "Primary": true,
+                    "PrivateDnsName": "ip-172-31-25-2.ec2.internal",
+                    "PrivateIpAddress": "172.31.25.2"
+                }
+            ],
+            "RequesterId": "AROA2MFLVQRTZ3AXRT6AH:749678902839",
+            "RequesterManaged": false,
+            "SourceDestCheck": true,
+            "Status": "available",
+            "SubnetId": "subnet-5c98c817",
+            "TagSet": [],
+            "VpcId": "vpc-2677595e",
+            "Operator": {
+                "Managed": false
+            }
+        },
+        {
+            "AvailabilityZone": "us-east-1d",
+            "Description": "AWS Lambda VPC ENI-ms-oak-demo-dev-jw-checkout-oak-processor-a2def9cb-c954-4bcd-82fb-bb5dcfe8f308",
+            "Groups": [
+                {
+                    "GroupId": "sg-0c2a92b514341eed2",
+                    "GroupName": "ms-oak-demo-dev-jw-checkoutoakmsoakdemodevjwcheckoutoakprocessorSecurityGroupEECF4A0F-sACVv4KQlp5q"
+                }
+            ],
+            "InterfaceType": "interface",
+            "Ipv6Addresses": [],
+            "MacAddress": "02:ee:f4:a8:18:c5",
+            "NetworkInterfaceId": "eni-056528c5f4cb66d73",
+            "OwnerId": "713324594279",
+            "PrivateDnsName": "ip-172-31-0-132.ec2.internal",
+            "PrivateIpAddress": "172.31.0.132",
+            "PrivateIpAddresses": [
+                {
+                    "Primary": true,
+                    "PrivateDnsName": "ip-172-31-0-132.ec2.internal",
+                    "PrivateIpAddress": "172.31.0.132"
+                }
+            ],
+            "RequesterId": "AROA2MFLVQRTZ3AXRT6AH:749678902839",
+            "RequesterManaged": false,
+            "SourceDestCheck": true,
+            "Status": "available",
+            "SubnetId": "subnet-263d7642",
+            "TagSet": [],
+            "VpcId": "vpc-2677595e",
+            "Operator": {
+                "Managed": false
+            }
+        }
+    ]
+}
