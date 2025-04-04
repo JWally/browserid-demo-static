@@ -43,6 +43,15 @@ export class S3DataBucket extends Construct {
 
       // Optional: Add bucket name
       bucketName: `${props.stackName}-checkout-bucket`,
+
+      // Optional: Cors for rest:
+      cors: [
+        {
+          allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.HEAD],
+          allowedOrigins: ["*"], // or specify your domain(s)
+          allowedHeaders: ["*"],
+        },
+      ],
     });
   }
 }
