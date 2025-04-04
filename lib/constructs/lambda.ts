@@ -30,6 +30,7 @@ interface LambdaConstructProps {
  */
 export class LambdaConstruct extends Construct {
   public readonly checkoutFunction: lambda.NodejsFunction;
+  public readonly trackerFunction: lambda.NodejsFunction;
 
   constructor(scope: Construct, id: string, props: LambdaConstructProps) {
     super(scope, id);
@@ -93,11 +94,26 @@ export class LambdaConstruct extends Construct {
       },
     );
 
+    this.trackerFunction = new lambda.NodejsFunction(
+      this,
+      `${stackName}-tracker`,
+      {
+        ...commonConfig,
+        entry: path.join(
+          __dirname,
+          "../../src-lambda/handlers/end-points/tracker.ts",
+        ),
+        functionName: `${stackName}-tracker`,
+      },
+    );
+
     // 5) Attach logging policy
     this.checkoutFunction.addToRolePolicy(IAM_LOGGING_POLICY);
+    this.trackerFunction.addToRolePolicy(IAM_LOGGING_POLICY);
 
     // 6) Create alarms for each Lambda
     this.createLambdaAlarms(this.checkoutFunction, "checkoutFn");
+    this.createLambdaAlarms(this.trackerFunction, "trackerFn");
 
     // 7) Add the policy to only necessary functions
     secret.grantRead(this.checkoutFunction);

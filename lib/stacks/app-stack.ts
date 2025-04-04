@@ -37,7 +37,7 @@ export class TheStack extends cdk.Stack {
     const { environment, stackName, rootDomain, stage, region, siteDomains } =
       props;
 
-    // Create Lambda functions
+    // Create End-Point Lambda functions
     const lambdaConstruct = new LambdaConstruct(this, "Lambda", {
       environment,
       stackName,
@@ -110,10 +110,19 @@ export class TheStack extends cdk.Stack {
       displayName: `${stackName}-checkout-topic`,
     });
 
+    const trackerTopic = new sns.Topic(this, `${stackName}-tracker-topic`, {
+      displayName: `${stackName}-tracker-topic`,
+    });
+
     // 2) Tell web function HOW to publish to the SNS Topic
     lambdaConstruct.checkoutFunction.addEnvironment(
       "CHECKOUT_TOPIC_ARN",
       checkoutTopic.topicArn,
+    );
+
+    lambdaConstruct.trackerFunction.addEnvironment(
+      "TRACKER_TOPIC_ARN",
+      trackerTopic.topicArn,
     );
 
     // 3) Give webFunction permission to publish to the Topic
@@ -121,6 +130,13 @@ export class TheStack extends cdk.Stack {
       new iam.PolicyStatement({
         actions: ["sns:Publish"],
         resources: [checkoutTopic.topicArn],
+      }),
+    );
+
+    lambdaConstruct.trackerFunction.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: ["sns:Publish"],
+        resources: [trackerTopic.topicArn],
       }),
     );
 
@@ -157,6 +173,17 @@ export class TheStack extends cdk.Stack {
       bucket: dataBucket.bucket,
     });
 
+    new ProcessorModel(this, "tracker-oak", {
+      stackName,
+      environment,
+      modelName: "tracker-oak",
+      stage,
+      projectName: id,
+      handlerPath: "src-lambda/handlers/processors/tracker-oak.ts",
+      inputTopic: trackerTopic,
+      bucket: dataBucket.bucket,
+    });
+
     // 2) AthenaConstruct
     // Create a new bucket to store Athena query results.
     const queryResultsBucket = new s3.Bucket(this, "AthenaResultsBucket", {
@@ -189,6 +216,8 @@ export class TheStack extends cdk.Stack {
 
     // Miscellaneous permissions / legalese:
     //
+
+    // oak model needs access to vpc details - provide it here
     oakModel.processorFunction.role?.addManagedPolicy(
       iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonEC2ReadOnlyAccess"),
     );

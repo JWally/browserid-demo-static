@@ -21,3 +21,4 @@ export const STACK_BUCKET_ARTIFACT: string = STACK_STAGES.includes(DEMO_STAGE)
 
 export const TMX_BUCKET_URL: string = `${S3_ROOT_URL}-${DEMO_STAGE}-${STACK_BUCKET_ARTIFACT}checkout-bucket.s3.us-east-1.amazonaws.com/demo/tmx/`;
 export const OAK_BUCKET_URL: string = `${S3_ROOT_URL}-${DEMO_STAGE}-${STACK_BUCKET_ARTIFACT}checkout-bucket.s3.us-east-1.amazonaws.com/demo/oak/`;
+export const TRACKER_BUCKER_URL: string = `${S3_ROOT_URL}-${DEMO_STAGE}-${STACK_BUCKET_ARTIFACT}checkout-bucket.s3.us-east-1.amazonaws.com/demo/tracker-oak/`;

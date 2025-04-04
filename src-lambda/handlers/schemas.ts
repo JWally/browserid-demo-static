@@ -103,3 +103,22 @@ export const checkoutSchema = {
   },
   required: ["body"],
 };
+
+export const trackerSchema = {
+  type: "object",
+  properties: {
+    body: {
+      type: "object",
+      required: ["sessionId"],
+      additionalProperties: true,
+      properties: {
+        sessionId: {
+          type: "string",
+          minLength: 1,
+          maxLength: 256,
+        },
+      },
+    },
+  },
+  required: ["body"],
+};

@@ -6,7 +6,10 @@ import * as logs from "aws-cdk-lib/aws-logs";
 import { LambdaConstruct } from "./lambda";
 import * as cloudwatch from "aws-cdk-lib/aws-cloudwatch";
 import { Duration } from "aws-cdk-lib";
-import { checkoutSchemaForAPIGW } from "../helpers/schemas";
+import {
+  checkoutSchemaForAPIGW,
+  trackerSchemaForAPIGW,
+} from "../helpers/schemas";
 
 /**
  * ApiGatewayConstruct
@@ -58,7 +61,8 @@ export class ApiGatewayConstruct extends Construct {
     });
 
     // Make Models
-    const { bodyValidator, checkoutModel } = this.makeValidationModels();
+    const { bodyValidator, checkoutModel, trackerModel } =
+      this.makeValidationModels();
 
     // ////////////////////////////////////////////////////////////////////////
     //
@@ -71,6 +75,8 @@ export class ApiGatewayConstruct extends Construct {
 
     // Attach checkout to v1
     const checkoutResource = v1.addResource("checkout");
+    const trackerResource = v1.addResource("tracker");
+
     // Give checkout a post method
     checkoutResource.addMethod(
       "POST",
@@ -82,6 +88,25 @@ export class ApiGatewayConstruct extends Construct {
         requestValidator: bodyValidator,
         requestModels: {
           "application/json": checkoutModel,
+        },
+        // require the header so no header -> 400
+        requestParameters: {
+          "method.request.header.Content-Type": true,
+        },
+      },
+    );
+
+    // Give checkout a post method
+    trackerResource.addMethod(
+      "POST",
+      new apigateway.LambdaIntegration(lambdaConstruct.trackerFunction, {
+        // If there's no matching model for the Content-Type, immediately fail
+        passthroughBehavior: apigateway.PassthroughBehavior.NEVER,
+      }),
+      {
+        requestValidator: bodyValidator,
+        requestModels: {
+          "application/json": trackerModel,
         },
         // require the header so no header -> 400
         requestParameters: {
@@ -185,6 +210,13 @@ export class ApiGatewayConstruct extends Construct {
       modelName: "CheckoutModel",
     });
 
-    return { checkoutModel, bodyValidator };
+    const trackerModel = new apigateway.Model(this, "TrackerModel", {
+      restApi: this.api,
+      contentType: "application/json",
+      schema: trackerSchemaForAPIGW, // The schema you exported
+      modelName: "TrackerModel",
+    });
+
+    return { checkoutModel, bodyValidator, trackerModel };
   }
 }
