@@ -58,3 +58,10 @@ export async function getServerPublicIp(
   // If no public IP was found, throw an error.
   throw new Error(`No public IP found for instance "${instanceId}"`);
 }
+
+/**
+ * Only used in tests. Clears the cached IP address.
+ */
+export function _resetCachedPublicIp() {
+  cachedPublicIp = null;
+}

@@ -13,3 +13,12 @@ export const checkoutSchemaForAPIGW: JsonSchema = {
     },
   },
 };
+
+export const trackerSchemaForAPIGW: JsonSchema = {
+  type: JsonSchemaType.OBJECT,
+  required: ["sessionId"],
+  additionalProperties: true, // Reject any properties beyond the ones listed above
+  properties: {
+    sessionId: { type: JsonSchemaType.STRING },
+  },
+};

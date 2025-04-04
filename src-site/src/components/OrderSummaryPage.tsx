@@ -1,5 +1,9 @@
 import React from "react";
-import { OAK_BUCKET_URL, TMX_BUCKET_URL } from "../utils/constants";
+import {
+  OAK_BUCKET_URL,
+  TMX_BUCKET_URL,
+  TRACKER_BUCKER_URL,
+} from "../utils/constants";
 import { getSessionId } from "../utils/helpers";
 
 function OrderSummaryPage() {
@@ -37,7 +41,15 @@ function OrderSummaryPage() {
           rel="noreferrer"
           className="w-full md:w-1/3 text-center bg-pink-600 text-white px-12 py-2 rounded hover:bg-pink-700 transition-colors font-mono"
         >
-          OAK
+          OAK-USED
+        </a>
+        <a
+          href={`${TRACKER_BUCKER_URL}${sessionId}.json`}
+          target="_blank"
+          rel="noreferrer"
+          className="w-full md:w-1/3 text-center bg-pink-600 text-white px-12 py-2 rounded hover:bg-pink-700 transition-colors font-mono"
+        >
+          OAK-AVAILABLE
         </a>
         <button
           type="button"
